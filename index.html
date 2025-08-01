@@ -33,6 +33,24 @@
             flex-direction: column;
         }
         
+        /* Scrollbar styling to match ChatGPT */
+        textarea::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        textarea::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        textarea::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+        
+        textarea::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -62,31 +80,82 @@
         }
         
         .prompt-container {
-            margin-bottom: 20px;
+            max-width: 768px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+        
+        .input-wrapper {
+            position: relative;
+            background: #f4f4f4;
+            border-radius: 24px;
+            border: 1px solid rgba(0,0,0,.1);
+            box-shadow: 0 0 15px rgba(0,0,0,.1);
+            transition: box-shadow 0.2s;
+        }
+        
+        .input-wrapper:focus-within {
+            box-shadow: 0 0 20px rgba(0,0,0,.15);
         }
         
         textarea {
             width: 100%;
-            min-height: 80px;
-            padding: 15px;
+            min-height: 52px;
+            max-height: 200px;
+            padding: 12px 120px 12px 20px;
             font-size: 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            resize: vertical;
+            line-height: 1.5;
+            border: none;
+            background: transparent;
+            resize: none;
             font-family: inherit;
-            transition: border-color 0.3s;
+            overflow-y: auto;
         }
         
         textarea:focus {
             outline: none;
-            border-color: #0066cc;
+        }
+        
+        textarea::placeholder {
+            color: #8e8ea0;
+        }
+        
+        .send-button {
+            position: absolute;
+            right: 8px;
+            bottom: 8px;
+            width: 36px;
+            height: 36px;
+            background: #000;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.2s;
+        }
+        
+        .send-button:hover {
+            opacity: 0.8;
+        }
+        
+        .send-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .send-button svg {
+            width: 20px;
+            height: 20px;
+            color: white;
         }
         
         .char-count {
-            text-align: right;
+            text-align: center;
             font-size: 0.85em;
             color: #666;
-            margin-top: 5px;
+            margin-top: 10px;
             display: none;
         }
         
@@ -94,35 +163,8 @@
             color: #d73502;
         }
         
-        .generate-btn {
-            background-color: #f8f9fa;
-            color: #202124;
-            border: 1px solid #f8f9fa;
-            padding: 10px 20px;
-            font-size: 14px;
-            font-weight: 400;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.1s;
-            display: inline-block;
-            margin: 0 4px;
-        }
-        
-        .generate-btn:hover {
-            box-shadow: 0 1px 1px rgba(0,0,0,.1);
-            background-color: #f8f9fa;
-            border: 1px solid #dadce0;
-            color: #202124;
-        }
-        
-        .generate-btn:active {
-            border: 1px solid #4285f4;
-            outline: none;
-        }
-        
         .button-container {
-            text-align: center;
-            margin-top: 20px;
+            display: none;
         }
         
         .result-section {
@@ -520,23 +562,22 @@
             
             <div class="generator-section">
                 <div class="prompt-container">
-                    <textarea 
-                        id="promptInput" 
-                        placeholder="Type the question they should've asked ChatGPT…"
-                        maxlength="16000"
-                    ></textarea>
+                    <div class="input-wrapper">
+                        <textarea 
+                            id="promptInput" 
+                            placeholder="Type the question they should've asked ChatGPT…"
+                            maxlength="16000"
+                            rows="1"
+                        ></textarea>
+                        <button class="send-button" id="sendButton" onclick="generateLink()" disabled>
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 11L12 6L17 11M12 18V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
                     <div class="char-count">
                         <span id="charCount">0</span> / 16,000
                     </div>
-                </div>
-                
-                <div class="button-container">
-                    <button class="generate-btn" onclick="generateLink()">
-                        ChatGPT Search
-                    </button>
-                    <button class="generate-btn" onclick="feelingLucky()">
-                        I'm Feeling Lucky
-                    </button>
                 </div>
             </div>
             
@@ -641,6 +682,20 @@
                 // Add event listeners for URL type change
                 document.getElementById('shortUrlOption').addEventListener('change', handleUrlTypeChange);
                 document.getElementById('longUrlOption').addEventListener('change', handleUrlTypeChange);
+                
+                // Auto-resize textarea
+                promptInput.addEventListener('input', () => {
+                    autoResizeTextarea();
+                    updateSendButton();
+                });
+                
+                // Handle Enter key
+                promptInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        generateLink();
+                    }
+                });
             }
         });
         
@@ -671,6 +726,18 @@
             } else {
                 countContainer.style.display = 'none';
             }
+        }
+        
+        function autoResizeTextarea() {
+            const textarea = document.getElementById('promptInput');
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 200) + 'px';
+        }
+        
+        function updateSendButton() {
+            const input = document.getElementById('promptInput');
+            const sendButton = document.getElementById('sendButton');
+            sendButton.disabled = !input.value.trim();
         }
         
         function showToast(message, type = 'info') {
@@ -752,19 +819,6 @@
             } catch (err) {
                 showToast('Couldn\'t copy — please copy manually.', 'error');
             }
-        }
-        
-        function feelingLucky() {
-            const prompt = document.getElementById('promptInput').value.trim();
-            
-            if (!prompt) {
-                showToast('Please enter a question.', 'error');
-                document.getElementById('promptInput').focus();
-                return;
-            }
-            
-            // Directly redirect to ChatGPT with the prompt
-            window.location.href = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
         }
         
         function shareLink() {
