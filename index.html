@@ -177,6 +177,37 @@
             background-color: #5a6268;
         }
         
+        .url-options {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .url-option {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+        
+        .url-option input[type="radio"] {
+            cursor: pointer;
+        }
+        
+        .url-option label {
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .short-url-loading {
+            display: inline-block;
+            margin-left: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+        
         .preview-container {
             margin-top: 20px;
             display: none;
@@ -234,6 +265,11 @@
         
         .toast.success {
             background-color: #28a745;
+        }
+        
+        .toast.warning {
+            background-color: #ffc107;
+            color: #000;
         }
         
         noscript {
@@ -464,6 +500,17 @@
             </div>
             
             <div class="result-section" id="resultSection">
+                <div class="url-options">
+                    <div class="url-option">
+                        <input type="radio" id="shortUrlOption" name="urlType" value="short" checked>
+                        <label for="shortUrlOption">Short URL</label>
+                    </div>
+                    <div class="url-option">
+                        <input type="radio" id="longUrlOption" name="urlType" value="long">
+                        <label for="longUrlOption">Long URL</label>
+                    </div>
+                </div>
+                
                 <div class="link-container">
                     <div class="link-text" id="generatedLink"></div>
                     <button class="copy-btn" onclick="copyLink()">Copy</button>
@@ -508,6 +555,8 @@
         const FINAL_DELAY = 1500;
         
         let generatedUrl = '';
+        let shortUrl = '';
+        let useShortUrl = true;
         
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
@@ -523,8 +572,23 @@
                 // Generator mode
                 const promptInput = document.getElementById('promptInput');
                 promptInput.addEventListener('input', updateCharCount);
+                
+                // Set default to short URL
+                document.getElementById('shortUrlOption').checked = true;
+                
+                // Add event listeners for URL type change
+                document.getElementById('shortUrlOption').addEventListener('change', handleUrlTypeChange);
+                document.getElementById('longUrlOption').addEventListener('change', handleUrlTypeChange);
             }
         });
+        
+        function handleUrlTypeChange() {
+            // If we already have a prompt, regenerate the link
+            const prompt = document.getElementById('promptInput').value.trim();
+            if (prompt && document.getElementById('resultSection').style.display !== 'none') {
+                generateLink();
+            }
+        }
         
         function updateCharCount() {
             const input = document.getElementById('promptInput');
@@ -551,7 +615,7 @@
             }, 3000);
         }
         
-        function generateLink() {
+        async function generateLink() {
             const prompt = document.getElementById('promptInput').value.trim();
             
             if (!prompt) {
@@ -568,8 +632,44 @@
             const encoded = encodeURIComponent(prompt);
             generatedUrl = `https://lmctfy.ai/?q=${encoded}`;
             
-            document.getElementById('generatedLink').textContent = generatedUrl;
+            // Show result section
             document.getElementById('resultSection').style.display = 'block';
+            
+            // Check if short URL is selected
+            useShortUrl = document.getElementById('shortUrlOption').checked;
+            
+            if (useShortUrl) {
+                // Show loading state
+                document.getElementById('generatedLink').innerHTML = '<span class="short-url-loading">Creating short URL...</span>';
+                
+                try {
+                    // Call API to create short URL
+                    const response = await fetch('/api/shorten', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ prompt })
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        shortUrl = data.shortUrl;
+                        document.getElementById('generatedLink').textContent = shortUrl;
+                        generatedUrl = shortUrl; // Update for copy/preview
+                    } else {
+                        // Fallback to long URL
+                        showToast('Could not create short URL, using long URL instead', 'warning');
+                        document.getElementById('generatedLink').textContent = generatedUrl;
+                    }
+                } catch (error) {
+                    // Fallback to long URL
+                    showToast('Could not create short URL, using long URL instead', 'warning');
+                    document.getElementById('generatedLink').textContent = generatedUrl;
+                }
+            } else {
+                document.getElementById('generatedLink').textContent = generatedUrl;
+            }
             
             // Hide any existing preview
             document.getElementById('previewContainer').style.display = 'none';

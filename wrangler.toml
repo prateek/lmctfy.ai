@@ -1,0 +1,34 @@
+name = "lmctfy-ai"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# KV Namespace binding for URL storage
+[[kv_namespaces]]
+binding = "URLS"
+id = "YOUR_KV_NAMESPACE_ID"
+preview_id = "YOUR_KV_PREVIEW_ID"
+
+# Routes
+routes = [
+  { pattern = "lmctfy.ai/api/*", zone_name = "lmctfy.ai" },
+  { pattern = "lmctfy.ai/s/*", zone_name = "lmctfy.ai" }
+]
+
+# Custom domain
+[[env.production.routes]]
+pattern = "lmctfy.ai/*"
+zone_name = "lmctfy.ai"
+
+# Environment variables (if needed)
+[vars]
+ENVIRONMENT = "production"
+
+# Development settings
+[env.development]
+name = "lmctfy-ai-dev"
+vars = { ENVIRONMENT = "development" }
+
+# Assets binding for Cloudflare Pages integration (optional)
+# This allows the Worker to serve static files if integrated with Pages
+[site]
+bucket = "./dist"

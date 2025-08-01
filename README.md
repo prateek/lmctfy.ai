@@ -7,9 +7,10 @@ A single-page web tool that creates shareable links to demonstrate how easy it i
 ## Features
 
 - 🔗 Generate shareable links with embedded prompts
+- 🔗 URL shortening service (e.g., `lmctfy.ai/s/abc123`)
 - 🎬 Animated demonstration showing how to use ChatGPT
 - 📱 Fully responsive design
-- 🚀 Single HTML file, no dependencies
+- 🚀 Single HTML file + Cloudflare Worker
 - ⚡ Instant deployment to Cloudflare Pages
 
 ## Quick Start
@@ -30,13 +31,24 @@ npm test
 
 ## Deployment
 
-### Cloudflare Pages (Recommended)
+### Cloudflare Pages + Workers (Recommended)
 
 1. Fork this repository
-2. Connect your GitHub account to Cloudflare Pages
-3. Create a new project and select your fork
-4. No build command needed - deploy directory is `/`
-5. Add environment variable `CF_API_TOKEN` for automated deployments
+2. Set up Cloudflare KV namespace:
+   ```bash
+   wrangler kv:namespace create URLS
+   ```
+3. Update `wrangler.toml` with your KV namespace ID
+4. Deploy the Worker:
+   ```bash
+   wrangler deploy
+   ```
+5. Connect your GitHub account to Cloudflare Pages
+6. Create a new project and select your fork
+7. No build command needed - deploy directory is `/`
+8. Add secrets for automated deployments:
+   - `CF_API_TOKEN` - Your Cloudflare API token
+   - `CF_ACCOUNT_ID` - Your Cloudflare account ID
 
 ### GitHub Actions
 
@@ -71,6 +83,8 @@ npm test:watch    # Run tests in watch mode
 ```
 /
 ├── index.html      # Single-file application
+├── worker.js       # Cloudflare Worker for URL shortening
+├── wrangler.toml   # Cloudflare Worker configuration
 ├── package.json    # NPM configuration (dev dependencies only)
 ├── jest.config.js  # Jest test configuration
 ├── lmctfy.test.js  # Unit tests
@@ -81,7 +95,9 @@ npm test:watch    # Run tests in watch mode
 ## How It Works
 
 1. **Generator Mode** (default): Enter a prompt and generate a shareable link
-2. **Player Mode** (`?q=<prompt>`): Shows typing animation then redirects to ChatGPT
+   - Choose between short URLs (`lmctfy.ai/s/abc123`) or long URLs
+   - Short URLs are stored in Cloudflare KV for 90 days
+2. **Player Mode** (`?q=<prompt>` or `/s/<code>`): Shows typing animation then redirects to ChatGPT
 3. **Preview Mode** (`?q=<prompt>&preview=1`): Shows animation without redirecting
 
 ## Contributing

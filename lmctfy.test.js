@@ -20,6 +20,9 @@ beforeEach(() => {
     writeText: jest.fn(() => Promise.resolve())
   };
   
+  // Mock fetch API
+  global.fetch = jest.fn();
+  
   // Execute extracted script
   eval(scriptContent);
 });
@@ -185,6 +188,89 @@ describe('LMCTFY.ai', () => {
       
       expect(previewFrame.src).toBe('https://lmctfy.ai/?q=test&preview=1');
       expect(previewContainer.style.display).toBe('block');
+    });
+  });
+  
+  describe('URL Shortening', () => {
+    test('generates short URL when option is selected', async () => {
+      const mockResponse = {
+        ok: true,
+        json: jest.fn().mockResolvedValue({
+          shortCode: 'abc123',
+          shortUrl: 'https://lmctfy.ai/s/abc123'
+        })
+      };
+      
+      global.fetch.mockResolvedValue(mockResponse);
+      
+      const input = document.getElementById('promptInput');
+      input.value = 'Test prompt';
+      document.getElementById('shortUrlOption').checked = true;
+      
+      await window.generateLink();
+      
+      expect(fetch).toHaveBeenCalledWith('/api/shorten', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt: 'Test prompt' })
+      });
+      
+      expect(document.getElementById('generatedLink').textContent).toBe('https://lmctfy.ai/s/abc123');
+    });
+    
+    test('falls back to long URL when API fails', async () => {
+      global.fetch.mockRejectedValue(new Error('Network error'));
+      window.showToast = jest.fn();
+      
+      const input = document.getElementById('promptInput');
+      input.value = 'Test prompt';
+      document.getElementById('shortUrlOption').checked = true;
+      
+      await window.generateLink();
+      
+      expect(window.showToast).toHaveBeenCalledWith('Could not create short URL, using long URL instead', 'warning');
+      expect(document.getElementById('generatedLink').textContent).toBe('https://lmctfy.ai/?q=Test%20prompt');
+    });
+    
+    test('generates long URL when option is selected', async () => {
+      const input = document.getElementById('promptInput');
+      input.value = 'Test prompt';
+      document.getElementById('longUrlOption').checked = true;
+      
+      await window.generateLink();
+      
+      expect(fetch).not.toHaveBeenCalled();
+      expect(document.getElementById('generatedLink').textContent).toBe('https://lmctfy.ai/?q=Test%20prompt');
+    });
+    
+    test('URL type toggle regenerates link', async () => {
+      // First generate with short URL
+      document.getElementById('shortUrlOption').checked = true;
+      const input = document.getElementById('promptInput');
+      input.value = 'Test prompt';
+      
+      const mockResponse = {
+        ok: true,
+        json: jest.fn().mockResolvedValue({
+          shortCode: 'abc123',
+          shortUrl: 'https://lmctfy.ai/s/abc123'
+        })
+      };
+      global.fetch.mockResolvedValue(mockResponse);
+      
+      await window.generateLink();
+      expect(document.getElementById('generatedLink').textContent).toBe('https://lmctfy.ai/s/abc123');
+      
+      // Switch to long URL
+      document.getElementById('longUrlOption').checked = true;
+      document.getElementById('longUrlOption').dispatchEvent(new Event('change'));
+      
+      // Wait for async operations
+      await new Promise(resolve => setTimeout(resolve, 0));
+      
+      expect(document.getElementById('generatedLink').textContent).toBe('https://lmctfy.ai/?q=Test%20prompt');
     });
   });
 });

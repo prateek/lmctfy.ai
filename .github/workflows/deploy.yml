@@ -25,7 +25,37 @@ jobs:
     - name: Run tests
       run: npm test
   
-  deploy:
+  deploy-worker:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+    
+    - name: Install Wrangler
+      run: npm install -g wrangler
+    
+    - name: Deploy Worker
+      env:
+        CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+      run: |
+        # Create KV namespace if it doesn't exist
+        KV_ID=$(wrangler kv:namespace create URLS --preview false 2>&1 | grep -oP 'id = "\K[^"]+' || echo "")
+        if [ -n "$KV_ID" ]; then
+          sed -i "s/YOUR_KV_NAMESPACE_ID/$KV_ID/g" wrangler.toml
+        fi
+        
+        # Deploy the worker
+        wrangler deploy
+  
+  deploy-pages:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
