@@ -96,7 +96,7 @@ npm test:watch    # Run tests in watch mode
 
 1. **Generator Mode** (default): Enter a prompt and generate a shareable link
    - Choose between short URLs (`lmctfy.ai/s/abc123`) or long URLs
-   - Short URLs are stored in Cloudflare KV for 90 days
+   - Short URLs are stored permanently in Cloudflare KV
 2. **Player Mode** (`?q=<prompt>` or `/s/<code>`): Shows typing animation then redirects to ChatGPT
 3. **Preview Mode** (`?q=<prompt>&preview=1`): Shows animation without redirecting
 

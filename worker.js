@@ -32,8 +32,8 @@ export default {
         // Generate short code
         const shortCode = await generateShortCode(env);
         
-        // Store in KV (expires after 90 days)
-        await env.URLS.put(shortCode, prompt, { expirationTtl: 7776000 });
+        // Store in KV permanently
+        await env.URLS.put(shortCode, prompt);
         
         return new Response(JSON.stringify({ 
           shortCode,
