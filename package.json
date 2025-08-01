@@ -1,0 +1,16 @@
+{
+  "name": "lmctfy.ai",
+  "version": "1.0.0",
+  "description": "Let Me ChatGPT That For You - Single-page tool to generate shareable ChatGPT links",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "keywords": ["chatgpt", "lmgtfy", "tool"],
+  "author": "Prateek Rungta",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}
