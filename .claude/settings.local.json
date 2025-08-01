@@ -16,7 +16,9 @@
       "Bash(gh repo create:*)",
       "Bash(gh repo view:*)",
       "Bash(gh api:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "mcp__playwright__browser_press_key",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }
