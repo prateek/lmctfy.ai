@@ -87,6 +87,7 @@
             font-size: 0.85em;
             color: #666;
             margin-top: 5px;
+            display: none;
         }
         
         .char-count.warning {
@@ -525,7 +526,7 @@
         </div>
         
         <footer>
-            <p>Not affiliated with OpenAI · Made by <a href="https://github.com/prateek" target="_blank">GitHub</a> / <a href="https://twitter.com/prateek" target="_blank">Twitter</a></p>
+            <p>Not affiliated with OpenAI · Made by Prateek Rungta (<a href="https://github.com/prateek" target="_blank">GitHub</a> / <a href="https://twitter.com/prateek" target="_blank">Twitter</a>)</p>
         </footer>
     </div>
     
@@ -596,12 +597,18 @@
             const countElement = document.getElementById('charCount');
             const countContainer = countElement.parentElement;
             
-            countElement.textContent = count.toLocaleString();
-            
-            if (count >= MAX_CHARS * 0.9) {
-                countContainer.classList.add('warning');
+            // Only show character count when within 20% of limit (12,800+ chars)
+            if (count >= MAX_CHARS * 0.8) {
+                countContainer.style.display = 'block';
+                countElement.textContent = count.toLocaleString();
+                
+                if (count >= MAX_CHARS * 0.9) {
+                    countContainer.classList.add('warning');
+                } else {
+                    countContainer.classList.remove('warning');
+                }
             } else {
-                countContainer.classList.remove('warning');
+                countContainer.style.display = 'none';
             }
         }
         
