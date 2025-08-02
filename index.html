@@ -607,7 +607,6 @@
 
     <script>
         const MAX_CHARS = 16000;
-        const TYPING_SPEED = 111; // ~9 chars per second
         const STEP_DELAY = 500;
         const FINAL_DELAY = 1500;
 
@@ -811,7 +810,7 @@
             previewContainer.style.display = 'block';
         }
 
-        async function typeText(element, text, speed = TYPING_SPEED) {
+        async function typeText(element, text, speed) {
             element.textContent = '';
             for (let i = 0; i < text.length; i++) {
                 element.textContent += text[i];
@@ -834,7 +833,7 @@
             await sleep(STEP_DELAY);
 
             // Step 1: Type URL
-            await typeText(urlBar, 'chat.openai.com');
+            await typeText(urlBar, 'chat.openai.com', 12); // 200ms total for URL
             stepOverlay.textContent = 'Step 2 · Type your question';
             await sleep(STEP_DELAY);
 
@@ -863,7 +862,9 @@
             `;
 
             const chatInput = document.getElementById('chatInput');
-            await typeText(chatInput, prompt);
+            // Calculate speed for 500-1000ms total based on prompt length
+            const textSpeed = Math.max(10, Math.min(50, 750 / prompt.length));
+            await typeText(chatInput, prompt, textSpeed);
 
             // Step 3: Press Enter
             stepOverlay.textContent = 'Step 3 · Hit Send';
