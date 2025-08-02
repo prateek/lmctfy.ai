@@ -61,15 +61,15 @@
         
         header {
             text-align: center;
-            margin: 40px 0 50px;
+            margin: 60px 0 50px;
         }
         
         h1 {
-            font-size: 2.5em;
-            font-weight: 700;
-            color: #000;
-            margin-bottom: 10px;
-            letter-spacing: -0.02em;
+            font-size: 3em;
+            font-weight: 600;
+            color: #202123;
+            margin-bottom: 8px;
+            letter-spacing: -0.03em;
             position: relative;
             display: inline-block;
         }
@@ -77,18 +77,20 @@
         h1::after {
             content: '';
             position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, #10a37f, #0a7e5f);
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: #10a37f;
             border-radius: 2px;
         }
         
         .tagline {
-            font-size: 1.2em;
-            color: #8e8ea0;
+            font-size: 1.1em;
+            color: #6e6e80;
             font-weight: 400;
+            margin-top: 16px;
         }
         
         .generator-section {
@@ -613,6 +615,25 @@
         let shortUrl = '';
         let useShortUrl = false;
         
+        // Check if running locally
+        function isLocalEnvironment() {
+            const hostname = window.location.hostname;
+            return hostname === 'localhost' || 
+                   hostname === '127.0.0.1' || 
+                   hostname === '' || // file:// protocol
+                   hostname.endsWith('.local');
+        }
+        
+        // Get the base URL for the current environment
+        function getBaseUrl() {
+            if (isLocalEnvironment()) {
+                // For local development, use current origin
+                return window.location.origin;
+            }
+            // For production, always use lmctfy.ai
+            return 'https://lmctfy.ai';
+        }
+        
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
@@ -704,6 +725,7 @@
             }
             
             const encoded = encodeURIComponent(prompt);
+            // Always show production URL for sharing
             generatedUrl = `https://lmctfy.ai/?q=${encoded}`;
             
             // Show result section with long URL by default
@@ -772,9 +794,13 @@
         function showPreview() {
             const previewContainer = document.getElementById('previewContainer');
             const previewFrame = document.getElementById('previewFrame');
-            const currentUrl = document.getElementById('generatedLink').value;
+            const prompt = document.getElementById('promptInput').value.trim();
+            const encoded = encodeURIComponent(prompt);
             
-            previewFrame.src = currentUrl + '&preview=1';
+            // Use local URL for preview when running locally
+            const previewUrl = getBaseUrl() + '/?q=' + encoded + '&preview=1';
+            
+            previewFrame.src = previewUrl;
             previewContainer.style.display = 'block';
         }
         
