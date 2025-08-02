@@ -18,7 +18,9 @@
       "Bash(gh api:*)",
       "Bash(git push:*)",
       "mcp__playwright__browser_press_key",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "WebFetch(domain:openai.com)",
+      "mcp__playwright__browser_take_screenshot"
     ],
     "deny": []
   }
