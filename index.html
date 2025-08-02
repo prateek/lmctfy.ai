@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ask ChatGPT Instantly</title>
     <meta name="description" content="Jump straight into ChatGPT with one click.">
-    
+
     <meta property="og:title" content="Ask ChatGPT Instantly">
     <meta property="og:description" content="Jump straight into ChatGPT with one click.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://lmctfy.ai">
-    
+
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Ask ChatGPT Instantly">
     <meta name="twitter:description" content="Jump straight into ChatGPT with one click.">
-    
-    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAeGVYSWZNTQAqAAAACAAFARIAAwAAAAEAAQAAARoABQAAAAEAAABKARsABQAAAAEAAABSASgAAwAAAAEAAgAAh2kABAAAAAEAAABaAAAAAAAAAEgAAAABAAAASAAAAAEAAqACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAAQdIdCAAAACXBIWXMAAAsTAAALEwEAmpwYAAACamlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNi4wLjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyIKICAgICAgICAgICAgeG1sbnM6ZXhpZj0iaHR0cDovL25zLmFkb2JlLmNvbS9leGlmLzEuMC8iPgogICAgICAgICA8dGlmZjpZUmVzb2x1dGlvbj43MjwvdGlmZjpZUmVzb2x1dGlvbj4KICAgICAgICAgPHRpZmY6UmVzb2x1dGlvblVuaXQ+MjwvdGlmZjpSZXNvbHV0aW9uVW5pdD4KICAgICAgICAgPHRpZmY6WFJlc29sdXRpb24+NzI8L3RpZmY6WFJlc29sdXRpb24+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgICAgIDxleGlmOlBpeGVsWERpbWVuc2lvbj4xNjwvZXhpZjpQaXhlbFhEaW1lbnNpb24+CiAgICAgICAgIDxleGlmOlBpeGVsWURpbWVuc2lvbj4xNjwvZXhpZjpQaXhlbFlEaW1lbnNpb24+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgoMTbPbAAAA9klEQVQ4EY2TsQ6CMBSFH4xujg5O6uDq6ODg4ODiH/gHLv6Bf+DiJzg4ODg4uDk5GBMNMdFE443nJCVtKZTEm7xtub33nHNbBAAQhuF6VVW7pmmWMcZExphZlmWn4/G48DxvZozBH1BVdZWm6UbX9WHTNLIsy7Zt+67rXg6Hw9yaBUEwq+v6ICE5n897gLSqKlzX3UmIeZ5vJSTLsizwU0Lc4/F4JyGO45wJcU3TrAhxr9frMzCFEGKZJEkEkBACITiOQwjBcz7iOI7gug4FQfCFUkoYwx+UlJI/cRAExHGMJqXUIIQgnk+UMQZd1/E3CCEopYQYY5+vF+MnCmCnugMAAAAASUVORK5CYII=">
-    
+
+    <link rel="icon" type="image/png"
+        href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAeGVYSWZNTQAqAAAACAAFARIAAwAAAAEAAQAAARoABQAAAAEAAABKARsABQAAAAEAAABSASgAAwAAAAEAAgAAh2kABAAAAAEAAABaAAAAAAAAAEgAAAABAAAASAAAAAEAAqACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAAQdIdCAAAACXBIWXMAAAsTAAALEwEAmpwYAAACamlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNi4wLjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyIKICAgICAgICAgICAgeG1sbnM6ZXhpZj0iaHR0cDovL25zLmFkb2JlLmNvbS9leGlmLzEuMC8iPgogICAgICAgICA8dGlmZjpZUmVzb2x1dGlvbj43MjwvdGlmZjpZUmVzb2x1dGlvbj4KICAgICAgICAgPHRpZmY6UmVzb2x1dGlvblVuaXQ+MjwvdGlmZjpSZXNvbHV0aW9uVW5pdD4KICAgICAgICAgPHRpZmY6WFJlc29sdXRpb24+NzI8L3RpZmY6WFJlc29sdXRpb24+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgICAgIDxleGlmOlBpeGVsWERpbWVuc2lvbj4xNjwvZXhpZjpQaXhlbFhEaW1lbnNpb24+CiAgICAgICAgIDxleGlmOlBpeGVsWURpbWVuc2lvbj4xNjwvZXhpZjpQaXhlbFlEaW1lbnNpb24+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgoMTbPbAAAA9klEQVQ4EY2TsQ6CMBSFH4xujg5O6uDq6ODg4ODiH/gHLv6Bf+DiJzg4ODg4uDk5GBMNMdFE443nJCVtKZTEm7xtub33nHNbBAAQhuF6VVW7pmmWMcZExphZlmWn4/G48DxvZozBH1BVdZWm6UbX9WHTNLIsy7Zt+67rXg6Hw9yaBUEwq+v6ICE5n897gLSqKlzX3UmIeZ5vJSTLsizwU0Lc4/F4JyGO45wJcU3TrAhxr9frMzCFEGKZJEkEkBACITiOQwjBcz7iOI7gug4FQfCFUkoYwx+UlJI/cRAExHGMJqXUIIQgnk+UMQZd1/E3CCEopYQYY5+vF+MnCmCnugMAAAAASUVORK5CYII=">
+
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Söhne', -apple-system, BlinkMacSystemFont, 'Inter', 'Helvetica Neue', 'Arial', sans-serif;
             background-color: #f7f7f8;
@@ -33,76 +35,75 @@
             flex-direction: column;
             letter-spacing: -0.01em;
         }
-        
+
         /* Scrollbar styling to match ChatGPT */
         textarea::-webkit-scrollbar {
             width: 8px;
         }
-        
+
         textarea::-webkit-scrollbar-track {
             background: transparent;
         }
-        
+
         textarea::-webkit-scrollbar-thumb {
             background-color: rgba(0, 0, 0, 0.2);
             border-radius: 4px;
         }
-        
+
         textarea::-webkit-scrollbar-thumb:hover {
             background-color: rgba(0, 0, 0, 0.3);
         }
-        
+
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
             flex: 1;
         }
-        
+
         header {
             text-align: center;
-            margin: 60px 0 50px;
+            margin: 60px 0;
         }
-        
+
         .logo {
-            height: 48px;
+            height: 90px;
             width: auto;
-            margin-bottom: 20px;
             display: inline-block;
             background-color: transparent;
             isolation: isolate;
         }
-        
+
         .tagline {
             font-size: 1.1em;
             color: #6e6e80;
             font-weight: 400;
-            margin-top: 16px;
+            margin-left: 40px;
         }
-        
+
         .generator-section {
             margin: 40px 0;
         }
-        
+
         .prompt-container {
             max-width: 768px;
             margin: 0 auto 30px;
             position: relative;
         }
-        
+
         .input-wrapper {
             position: relative;
             background: #f4f4f4;
             border-radius: 24px;
-            border: 1px solid rgba(0,0,0,.1);
-            box-shadow: 0 0 15px rgba(0,0,0,.1);
+            border: 1px solid rgba(0, 0, 0, .1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, .1);
             transition: box-shadow 0.2s;
         }
-        
+
         .input-wrapper:focus-within {
-            box-shadow: 0 0 20px rgba(0,0,0,.15);
+            box-shadow: 0 0 20px rgba(0, 0, 0, .15);
         }
-        
+
         textarea {
             width: 100%;
             min-height: 52px;
@@ -116,15 +117,15 @@
             font-family: inherit;
             overflow-y: auto;
         }
-        
+
         textarea:focus {
             outline: none;
         }
-        
+
         textarea::placeholder {
             color: #8e8ea0;
         }
-        
+
         .send-button {
             position: absolute;
             right: 8px;
@@ -140,22 +141,22 @@
             justify-content: center;
             transition: all 0.2s;
         }
-        
+
         .send-button:hover {
             background: #0a7e5f;
         }
-        
+
         .send-button:disabled {
             background: #d9d9e3;
             cursor: not-allowed;
         }
-        
+
         .send-button svg {
             width: 20px;
             height: 20px;
             color: white;
         }
-        
+
         .char-count {
             text-align: center;
             font-size: 0.85em;
@@ -163,27 +164,27 @@
             margin-top: 10px;
             display: none;
         }
-        
+
         .char-count.warning {
             color: #ef4444;
         }
-        
+
         .button-container {
             display: none;
         }
-        
+
         .result-section {
             margin-top: 30px;
             display: none;
             text-align: center;
         }
-        
+
         .result-header {
             font-size: 18px;
             color: #333;
             margin-bottom: 20px;
         }
-        
+
         .result-header a {
             color: #10a37f;
             text-decoration: none;
@@ -191,21 +192,21 @@
             font-weight: 500;
             transition: color 0.2s;
         }
-        
+
         .result-header a:hover {
             color: #0a7e5f;
             text-decoration: underline;
         }
-        
+
         .url-container {
             background-color: #ffffff;
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 20px;
             border: 1px solid #e5e5e5;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
-        
+
         .url-input {
             width: 100%;
             max-width: 600px;
@@ -218,27 +219,27 @@
             font-family: 'Söhne Mono', 'Monaco', 'Consolas', monospace;
             background: #f7f7f8;
         }
-        
+
         .url-input:focus {
             outline: none;
             border-color: #10a37f;
             box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.2);
         }
-        
-        
-        
-        
+
+
+
+
         .short-url-loading {
             display: inline-block;
             font-size: 14px;
             color: #666;
         }
-        
+
         .preview-container {
             margin-top: 20px;
             display: none;
         }
-        
+
         .preview-frame {
             width: 100%;
             max-width: 640px;
@@ -248,25 +249,25 @@
             display: block;
             margin: 0 auto;
         }
-        
+
         footer {
             text-align: center;
             padding: 20px;
             font-size: 0.85em;
             color: #8e8ea0;
         }
-        
+
         footer a {
             color: #8e8ea0;
             text-decoration: none;
             display: inline-block;
             transition: color 0.2s;
         }
-        
+
         footer a:hover {
             color: #10a37f;
         }
-        
+
         .toast {
             position: fixed;
             bottom: 20px;
@@ -281,26 +282,26 @@
             transition: opacity 0.3s;
             pointer-events: none;
             z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
-        
+
         .toast.show {
             opacity: 1;
         }
-        
+
         .toast.error {
             background-color: #ef4444;
         }
-        
+
         .toast.success {
             background-color: #10a37f;
         }
-        
+
         .toast.warning {
             background-color: #fab005;
             color: #000;
         }
-        
+
         noscript {
             display: block;
             background-color: #fff3cd;
@@ -309,14 +310,14 @@
             text-align: center;
             border: 1px solid #ffeaa7;
         }
-        
+
         .player-mode {
             display: none;
             height: 100vh;
             position: relative;
             overflow: hidden;
         }
-        
+
         .browser-window {
             width: 90%;
             max-width: 1200px;
@@ -324,12 +325,12 @@
             margin: 50px auto;
             background: white;
             border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
             display: flex;
             flex-direction: column;
             border: 1px solid #e5e5e5;
         }
-        
+
         .browser-header {
             background: #f5f5f5;
             padding: 10px;
@@ -338,23 +339,31 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .browser-controls {
             display: flex;
             gap: 8px;
         }
-        
+
         .browser-btn {
             width: 12px;
             height: 12px;
             border-radius: 50%;
             background: #ccc;
         }
-        
-        .browser-btn.red { background: #ff5f57; }
-        .browser-btn.yellow { background: #ffbd2e; }
-        .browser-btn.green { background: #28ca42; }
-        
+
+        .browser-btn.red {
+            background: #ff5f57;
+        }
+
+        .browser-btn.yellow {
+            background: #ffbd2e;
+        }
+
+        .browser-btn.green {
+            background: #28ca42;
+        }
+
         .url-bar {
             flex: 1;
             background: white;
@@ -364,14 +373,14 @@
             font-family: monospace;
             font-size: 14px;
         }
-        
+
         .browser-content {
             flex: 1;
             background: white;
             position: relative;
             overflow: hidden;
         }
-        
+
         .chatgpt-mock {
             width: 100%;
             height: 100%;
@@ -379,20 +388,20 @@
             flex-direction: column;
             background: #f7f7f8;
         }
-        
+
         .chatgpt-header {
             background: white;
             padding: 20px;
             text-align: center;
             border-bottom: 1px solid #e5e5e5;
         }
-        
+
         .chatgpt-title {
             font-size: 20px;
             font-weight: 600;
             color: #202123;
         }
-        
+
         .chatgpt-chat-area {
             flex: 1;
             padding: 20px;
@@ -400,24 +409,24 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .chatgpt-empty-state {
             text-align: center;
             color: #8e8ea0;
         }
-        
+
         .chatgpt-input-container {
             background: white;
             padding: 20px;
             border-top: 1px solid #e5e5e5;
         }
-        
+
         .chatgpt-input-wrapper {
             max-width: 768px;
             margin: 0 auto;
             position: relative;
         }
-        
+
         .chatgpt-input {
             width: 100%;
             padding: 12px 50px 12px 16px;
@@ -428,7 +437,7 @@
             min-height: 52px;
             font-family: inherit;
         }
-        
+
         .chatgpt-send-btn {
             position: absolute;
             right: 8px;
@@ -445,16 +454,16 @@
             cursor: pointer;
             transition: background 0.2s;
         }
-        
+
         .chatgpt-send-btn:hover {
             background: #0a7e5f;
         }
-        
+
         .chatgpt-send-btn svg {
             width: 20px;
             height: 20px;
         }
-        
+
         .step-overlay {
             position: absolute;
             top: 20px;
@@ -467,40 +476,42 @@
             font-weight: 500;
             opacity: 0;
             transition: opacity 0.3s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
-        
+
         .step-overlay.show {
             opacity: 1;
         }
-        
+
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
             }
-            
+
             .logo {
-                height: 40px;
+                height: 45px;
+                max-width: 280px;
                 margin-bottom: 16px;
             }
-            
+
             .tagline {
                 font-size: 1em;
             }
-            
+
             .link-container {
                 flex-direction: column;
                 gap: 10px;
             }
-            
-            .copy-btn, .preview-btn {
+
+            .copy-btn,
+            .preview-btn {
                 width: 100%;
             }
-            
+
             .preview-frame {
                 height: 200px;
             }
-            
+
             .browser-window {
                 width: 95%;
                 height: 90%;
@@ -509,28 +520,26 @@
         }
     </style>
 </head>
+
 <body>
     <noscript>LMCTFY requires JavaScript.</noscript>
-    
+
     <div class="generator-mode">
         <div class="container">
             <header>
-                <img src="logo-lmctfyai" alt="LMCTFY.ai" class="logo">
+                <img src="logo.png" alt="LMCTFY.ai" class="logo">
                 <p class="tagline">Let Me ChatGPT That For You</p>
             </header>
-            
+
             <div class="generator-section">
                 <div class="prompt-container">
                     <div class="input-wrapper">
-                        <textarea 
-                            id="promptInput" 
-                            placeholder="Type the question they should've asked ChatGPT…"
-                            maxlength="16000"
-                            rows="1"
-                        ></textarea>
+                        <textarea id="promptInput" placeholder="Type the question they should've asked ChatGPT…"
+                            maxlength="16000" rows="1"></textarea>
                         <button class="send-button" id="sendButton" onclick="generateLink()" disabled>
                             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M7 11L12 6L17 11M12 18V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M7 11L12 6L17 11M12 18V6" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </button>
                     </div>
@@ -539,41 +548,44 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="result-section" id="resultSection">
                 <div class="result-header">
                     Done! <a href="#" onclick="copyLink(); return false;">Copy</a>,
                     <a href="#" onclick="shortenLink(); return false;">Shorten</a> or
                     <a href="#" onclick="showPreview(); return false;">Preview</a>
                 </div>
-                
+
                 <div class="url-container">
                     <input type="text" class="url-input" id="generatedLink" readonly>
                 </div>
-                
+
                 <div class="preview-container" id="previewContainer">
                     <iframe class="preview-frame" id="previewFrame"></iframe>
                 </div>
             </div>
         </div>
-        
+
         <footer>
             <p>
-                Not affiliated with OpenAI · Made by Prateek Rungta 
+                Not affiliated with OpenAI · Made by Prateek Rungta
                 <a href="https://github.com/prateek" target="_blank" aria-label="GitHub">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="vertical-align: middle;">
-                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
                     </svg>
                 </a>
                 <a href="https://twitter.com/prateekrungta" target="_blank" aria-label="Twitter">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="vertical-align: middle; margin-left: 8px;">
-                        <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"
+                        style="vertical-align: middle; margin-left: 8px;">
+                        <path
+                            d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
                     </svg>
                 </a>
             </p>
         </footer>
     </div>
-    
+
     <div class="player-mode" id="playerMode">
         <div class="browser-window">
             <div class="browser-header">
@@ -585,33 +597,33 @@
                 <div class="url-bar" id="urlBar"></div>
             </div>
             <div class="browser-content" id="browserContent">
-                
+
             </div>
         </div>
         <div class="step-overlay" id="stepOverlay"></div>
     </div>
-    
+
     <div class="toast" id="toast"></div>
-    
+
     <script>
         const MAX_CHARS = 16000;
         const TYPING_SPEED = 111; // ~9 chars per second
         const STEP_DELAY = 500;
         const FINAL_DELAY = 1500;
-        
+
         let generatedUrl = '';
         let shortUrl = '';
         let useShortUrl = false;
-        
+
         // Check if running locally
         function isLocalEnvironment() {
             const hostname = window.location.hostname;
-            return hostname === 'localhost' || 
-                   hostname === '127.0.0.1' || 
-                   hostname === '' || // file:// protocol
-                   hostname.endsWith('.local');
+            return hostname === 'localhost' ||
+                hostname === '127.0.0.1' ||
+                hostname === '' || // file:// protocol
+                hostname.endsWith('.local');
         }
-        
+
         // Get the base URL for the current environment
         function getBaseUrl() {
             if (isLocalEnvironment()) {
@@ -621,12 +633,12 @@
             // For production, always use lmctfy.ai
             return 'https://lmctfy.ai';
         }
-        
+
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const prompt = urlParams.get('q');
-            
+
             if (prompt) {
                 // Player mode
                 document.querySelector('.generator-mode').style.display = 'none';
@@ -636,14 +648,14 @@
                 // Generator mode
                 const promptInput = document.getElementById('promptInput');
                 promptInput.addEventListener('input', updateCharCount);
-                
-                
+
+
                 // Auto-resize textarea
                 promptInput.addEventListener('input', () => {
                     autoResizeTextarea();
                     updateSendButton();
                 });
-                
+
                 // Handle Enter key
                 promptInput.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
@@ -653,19 +665,19 @@
                 });
             }
         });
-        
-        
+
+
         function updateCharCount() {
             const input = document.getElementById('promptInput');
             const count = input.value.length;
             const countElement = document.getElementById('charCount');
             const countContainer = countElement.parentElement;
-            
+
             // Only show character count when within 20% of limit (12,800+ chars)
             if (count >= MAX_CHARS * 0.8) {
                 countContainer.style.display = 'block';
                 countElement.textContent = count.toLocaleString();
-                
+
                 if (count >= MAX_CHARS * 0.9) {
                     countContainer.classList.add('warning');
                 } else {
@@ -675,65 +687,65 @@
                 countContainer.style.display = 'none';
             }
         }
-        
+
         function autoResizeTextarea() {
             const textarea = document.getElementById('promptInput');
             textarea.style.height = 'auto';
             textarea.style.height = Math.min(textarea.scrollHeight, 200) + 'px';
         }
-        
+
         function updateSendButton() {
             const input = document.getElementById('promptInput');
             const sendButton = document.getElementById('sendButton');
             sendButton.disabled = !input.value.trim();
         }
-        
+
         function showToast(message, type = 'info') {
             const toast = document.getElementById('toast');
             toast.textContent = message;
             toast.className = 'toast show ' + type;
-            
+
             setTimeout(() => {
                 toast.classList.remove('show');
             }, 3000);
         }
-        
+
         async function generateLink() {
             const prompt = document.getElementById('promptInput').value.trim();
-            
+
             if (!prompt) {
                 showToast('Please enter a question.', 'error');
                 document.getElementById('promptInput').focus();
                 return;
             }
-            
+
             if (prompt.length > MAX_CHARS) {
                 showToast('Prompt is too long (16K max).', 'error');
                 return;
             }
-            
+
             const encoded = encodeURIComponent(prompt);
             // Always show production URL for sharing
             generatedUrl = `https://lmctfy.ai/?q=${encoded}`;
-            
+
             // Show result section with long URL by default
             document.getElementById('resultSection').style.display = 'block';
             document.getElementById('generatedLink').value = generatedUrl;
-            
+
             // Hide any existing preview
             document.getElementById('previewContainer').style.display = 'none';
         }
-        
+
         async function shortenLink() {
             const promptInput = document.getElementById('promptInput');
             const prompt = promptInput.value.trim();
-            
+
             if (!shortUrl) {
                 // Show loading state
                 const linkInput = document.getElementById('generatedLink');
                 const originalValue = linkInput.value;
                 linkInput.value = 'Creating short URL...';
-                
+
                 try {
                     // Call API to create short URL
                     const response = await fetch('/api/shorten', {
@@ -743,7 +755,7 @@
                         },
                         body: JSON.stringify({ prompt })
                     });
-                    
+
                     if (response.ok) {
                         const data = await response.json();
                         shortUrl = data.shortUrl;
@@ -767,7 +779,7 @@
                 showToast('Switched to short URL', 'success');
             }
         }
-        
+
         async function copyLink() {
             try {
                 const urlInput = document.getElementById('generatedLink');
@@ -778,20 +790,20 @@
                 showToast('Couldn\'t copy — please copy manually.', 'error');
             }
         }
-        
+
         function showPreview() {
             const previewContainer = document.getElementById('previewContainer');
             const previewFrame = document.getElementById('previewFrame');
             const prompt = document.getElementById('promptInput').value.trim();
             const encoded = encodeURIComponent(prompt);
-            
+
             // Use local URL for preview when running locally
             const previewUrl = getBaseUrl() + '/?q=' + encoded + '&preview=1';
-            
+
             previewFrame.src = previewUrl;
             previewContainer.style.display = 'block';
         }
-        
+
         async function typeText(element, text, speed = TYPING_SPEED) {
             element.textContent = '';
             for (let i = 0; i < text.length; i++) {
@@ -799,26 +811,26 @@
                 await sleep(speed);
             }
         }
-        
+
         function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
-        
+
         async function startAnimation(prompt, isPreview) {
             const urlBar = document.getElementById('urlBar');
             const browserContent = document.getElementById('browserContent');
             const stepOverlay = document.getElementById('stepOverlay');
-            
+
             // Step 0: Empty browser
             stepOverlay.textContent = 'Step 1 · Go to chat.openai.com';
             stepOverlay.classList.add('show');
             await sleep(STEP_DELAY);
-            
+
             // Step 1: Type URL
             await typeText(urlBar, 'chat.openai.com');
             stepOverlay.textContent = 'Step 2 · Type your question';
             await sleep(STEP_DELAY);
-            
+
             // Step 2: Show ChatGPT interface
             browserContent.innerHTML = `
                 <div class="chatgpt-mock">
@@ -842,24 +854,24 @@
                     </div>
                 </div>
             `;
-            
+
             const chatInput = document.getElementById('chatInput');
             await typeText(chatInput, prompt);
-            
+
             // Step 3: Press Enter
             stepOverlay.textContent = 'Step 3 · Hit Send';
             await sleep(STEP_DELAY);
-            
+
             // Simulate button press
             const sendBtn = document.querySelector('.chatgpt-send-btn');
             sendBtn.style.transform = 'scale(0.95)';
             await sleep(100);
             sendBtn.style.transform = '';
-            
+
             // Final message
             stepOverlay.textContent = '…Was that so hard?';
             await sleep(FINAL_DELAY);
-            
+
             // Redirect unless preview mode
             if (!isPreview) {
                 window.location.href = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
@@ -867,4 +879,5 @@
         }
     </script>
 </body>
+
 </html>
