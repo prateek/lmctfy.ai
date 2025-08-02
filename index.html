@@ -215,38 +215,6 @@
             box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
         }
         
-        .action-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .action-btn {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            font-size: 14px;
-            font-weight: 500;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            text-decoration: none;
-            display: inline-block;
-        }
-        
-        .action-btn:hover {
-            background-color: #0056b3;
-        }
-        
-        .action-btn.secondary {
-            background-color: #6c757d;
-        }
-        
-        .action-btn.secondary:hover {
-            background-color: #5a6268;
-        }
         
         
         
@@ -562,11 +530,6 @@
                 
                 <div class="url-container">
                     <input type="text" class="url-input" id="generatedLink" readonly>
-                    
-                    <div class="action-buttons">
-                        <button class="action-btn" onclick="copyLink()">Copy</button>
-                        <button class="action-btn secondary" onclick="showPreview()">Preview</button>
-                    </div>
                 </div>
                 
                 <div class="preview-container" id="previewContainer">
