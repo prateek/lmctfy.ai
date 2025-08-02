@@ -523,8 +523,7 @@
             
             <div class="result-section" id="resultSection">
                 <div class="result-header">
-                    Done! <a href="#" onclick="copyLink(); return false;">Copy</a>,
-                    <a href="#" onclick="shareLink(); return false;">Share</a>, Or
+                    Done! <a href="#" onclick="copyLink(); return false;">Copy</a> Or
                     <a href="#" onclick="showPreview(); return false;">Preview</a>
                 </div>
                 
@@ -726,17 +725,6 @@
             } catch (err) {
                 showToast('Couldn\'t copy — please copy manually.', 'error');
             }
-        }
-        
-        function shareLink() {
-            if (!generatedUrl) {
-                showToast('Generate a link first!', 'error');
-                return;
-            }
-            
-            // For now, just copy the link
-            // In the future, could add share dialog
-            copyLink();
         }
         
         function showPreview() {
