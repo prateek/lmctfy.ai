@@ -552,7 +552,8 @@
             
             <div class="result-section" id="resultSection">
                 <div class="result-header">
-                    Done! <a href="#" onclick="copyLink(); return false;">Copy</a> Or
+                    Done! <a href="#" onclick="copyLink(); return false;">Copy</a>,
+                    <a href="#" onclick="shortenLink(); return false;">Shorten</a> or
                     <a href="#" onclick="showPreview(); return false;">Preview</a>
                 </div>
                 
@@ -610,7 +611,7 @@
         
         let generatedUrl = '';
         let shortUrl = '';
-        let useShortUrl = true;
+        let useShortUrl = false;
         
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
@@ -705,14 +706,23 @@
             const encoded = encodeURIComponent(prompt);
             generatedUrl = `https://lmctfy.ai/?q=${encoded}`;
             
-            // Show result section
+            // Show result section with long URL by default
             document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('generatedLink').value = generatedUrl;
             
-            // Always try to create short URL
-            {
-                useShortUrl = true;
+            // Hide any existing preview
+            document.getElementById('previewContainer').style.display = 'none';
+        }
+        
+        async function shortenLink() {
+            const promptInput = document.getElementById('promptInput');
+            const prompt = promptInput.value.trim();
+            
+            if (!shortUrl) {
                 // Show loading state
-                document.getElementById('generatedLink').value = 'Creating short URL...';
+                const linkInput = document.getElementById('generatedLink');
+                const originalValue = linkInput.value;
+                linkInput.value = 'Creating short URL...';
                 
                 try {
                     // Call API to create short URL
@@ -727,22 +737,25 @@
                     if (response.ok) {
                         const data = await response.json();
                         shortUrl = data.shortUrl;
-                        document.getElementById('generatedLink').value = shortUrl;
-                        generatedUrl = shortUrl; // Update for copy/preview
+                        useShortUrl = true;
+                        linkInput.value = shortUrl;
+                        showToast('Short URL created!', 'success');
                     } else {
-                        // Fallback to long URL
-                        showToast('Could not create short URL, using long URL instead', 'warning');
-                        document.getElementById('generatedLink').value = generatedUrl;
+                        // Restore original URL
+                        linkInput.value = originalValue;
+                        showToast('Could not create short URL', 'error');
                     }
                 } catch (error) {
-                    // Fallback to long URL
-                    showToast('Could not create short URL, using long URL instead', 'warning');
-                    document.getElementById('generatedLink').value = generatedUrl;
+                    // Restore original URL
+                    linkInput.value = originalValue;
+                    showToast('Could not create short URL', 'error');
                 }
+            } else {
+                // Already have short URL, just switch to it
+                useShortUrl = true;
+                document.getElementById('generatedLink').value = shortUrl;
+                showToast('Switched to short URL', 'success');
             }
-            
-            // Hide any existing preview
-            document.getElementById('previewContainer').style.display = 'none';
         }
         
         async function copyLink() {
@@ -759,8 +772,9 @@
         function showPreview() {
             const previewContainer = document.getElementById('previewContainer');
             const previewFrame = document.getElementById('previewFrame');
+            const currentUrl = document.getElementById('generatedLink').value;
             
-            previewFrame.src = generatedUrl + '&preview=1';
+            previewFrame.src = currentUrl + '&preview=1';
             previewContainer.style.display = 'block';
         }
         
