@@ -797,8 +797,15 @@
             const prompt = document.getElementById('promptInput').value.trim();
             const encoded = encodeURIComponent(prompt);
 
-            // Use local URL for preview when running locally
-            const previewUrl = getBaseUrl() + '/?q=' + encoded + '&preview=1';
+            // For local file:// URLs, construct the preview URL differently
+            let previewUrl;
+            if (window.location.protocol === 'file:') {
+                // Use current file path with query parameters
+                previewUrl = window.location.href.split('?')[0] + '?q=' + encoded + '&preview=1';
+            } else {
+                // Use getBaseUrl for hosted environments
+                previewUrl = getBaseUrl() + '/?q=' + encoded + '&preview=1';
+            }
 
             previewFrame.src = previewUrl;
             previewContainer.style.display = 'block';
