@@ -20,7 +20,18 @@
       "mcp__playwright__browser_press_key",
       "Bash(git commit:*)",
       "WebFetch(domain:openai.com)",
-      "mcp__playwright__browser_take_screenshot"
+      "mcp__playwright__browser_take_screenshot",
+      "Bash(cp:*)",
+      "Bash(wrangler kv:namespace create:*)",
+      "Bash(wrangler kv:*)",
+      "Bash(wrangler deploy:*)",
+      "Bash(curl:*)",
+      "Bash(wrangler tail:*)",
+      "Bash(rm:*)",
+      "Bash(wrangler whoami:*)",
+      "Bash(wrangler pages domains:*)",
+      "Bash(wrangler:*)",
+      "mcp__cf-docs__search_cloudflare_documentation"
     ],
     "deny": []
   }

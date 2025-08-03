@@ -5,19 +5,13 @@ compatibility_date = "2024-01-01"
 # KV Namespace binding for URL storage
 [[kv_namespaces]]
 binding = "URLS"
-id = "YOUR_KV_NAMESPACE_ID"
-preview_id = "YOUR_KV_PREVIEW_ID"
+id = "56cf72fa04b9404a9c6a978e7c90ad2b"
+preview_id = "0fd4b3adef6e4c108804cd50f1d2ea38"
 
-# Routes
+# Routes for custom domain
 routes = [
-  { pattern = "lmctfy.ai/api/*", zone_name = "lmctfy.ai" },
-  { pattern = "lmctfy.ai/s/*", zone_name = "lmctfy.ai" }
+  { pattern = "lmctfy.ai/*", zone_name = "lmctfy.ai" }
 ]
-
-# Custom domain
-[[env.production.routes]]
-pattern = "lmctfy.ai/*"
-zone_name = "lmctfy.ai"
 
 # Environment variables (if needed)
 [vars]
@@ -28,7 +22,9 @@ ENVIRONMENT = "production"
 name = "lmctfy-ai-dev"
 vars = { ENVIRONMENT = "development" }
 
-# Assets binding for Cloudflare Pages integration (optional)
-# This allows the Worker to serve static files if integrated with Pages
+# Pages configuration
+pages_build_output_dir = "./dist"
+
+# Workers Sites configuration for static file serving (keep for worker)
 [site]
 bucket = "./dist"

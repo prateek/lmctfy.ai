@@ -6,3 +6,8 @@ coverage/
 .env.local
 dist/
 build/
+
+# Wrangler secrets and development files
+.dev.vars*
+wrangler.toml.backup
+.wrangler/
