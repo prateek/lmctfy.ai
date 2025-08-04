@@ -633,10 +633,37 @@
             return 'https://lmctfy.ai';
         }
 
+        // Handle short URL resolution
+        async function getPromptFromShortUrl() {
+            const path = window.location.pathname;
+            // Check if path looks like a short key (starts with / and contains only alphanumeric)
+            const shortKeyMatch = path.match(/^\/([a-zA-Z0-9]{6})$/);
+            
+            if (shortKeyMatch) {
+                const shortKey = shortKeyMatch[1];
+                try {
+                    const response = await fetch(`/api/kv?key=${shortKey}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        return data.value.prompt; // Return the prompt directly
+                    }
+                } catch (error) {
+                    console.error('Error fetching short URL:', error);
+                }
+            }
+            return null; // No short URL or error
+        }
+
         // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check for prompt from URL params or short URL
             const urlParams = new URLSearchParams(window.location.search);
-            const prompt = urlParams.get('q');
+            let prompt = urlParams.get('q');
+            
+            // If no URL param prompt, check if this is a short URL
+            if (!prompt) {
+                prompt = await getPromptFromShortUrl();
+            }
 
             if (prompt) {
                 // Player mode
