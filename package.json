@@ -1,0 +1,9 @@
+{
+  "name": "lmctfy-ai",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "wrangler pages dev public",
+    "deploy": "wrangler pages deploy public",
+    "logs": "wrangler tail"
+  }
+}
