@@ -1005,7 +1005,7 @@
             // Step 1: Navigate to ChatGPT with smooth transition
             await updateOverlayMessage(stepOverlay, 'Step 1: Navigate to ChatGPT (revolutionary, I know)');
             await sleep(200);
-            await typeText(urlBar, 'chat.openai.com', URL_TYPING_SPEED);
+            await typeText(urlBar, 'chatgpt.com', URL_TYPING_SPEED);
             await sleep(STEP_DELAY);
 
             // Step 2: Show ChatGPT interface with smooth transition
@@ -1072,7 +1072,7 @@
             if (!isPreview) {
                 await updateOverlayMessage(stepOverlay, '', 300, 100); // Quick fade for transition
                 await showRedirectCountdown(stepOverlay, 3000); // 3 second countdown
-                window.location.href = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
+                window.location.href = `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`;
             }
         }
     </script>
