@@ -513,6 +513,35 @@
             animation: finalCenterPulse 0.8s ease-out;
         }
 
+        .step-overlay.redirect {
+            background: linear-gradient(135deg, #ffa726, #ff7043);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .countdown-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #fff, rgba(255,255,255,0.8));
+            border-radius: 0 0 20px 20px;
+            animation: countdownProgress linear;
+        }
+
+        @keyframes countdownProgress {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+
+        .countdown-text {
+            display: block;
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
         @keyframes finalCenterPulse {
             0% { 
                 transform: translate(-50%, -50%) scale(1); 
@@ -579,6 +608,10 @@
 
             .step-overlay.hide {
                 transform: translate(-50%, -50%) scale(0.8);
+            }
+
+            .countdown-text {
+                font-size: 12px;
             }
         }
     </style>
@@ -929,6 +962,36 @@
             await sleep(fadeInTime);
         }
 
+        async function showRedirectCountdown(overlay, totalTime = 3000) {
+            // Clear previous classes and set redirect styling
+            overlay.classList.remove('final');
+            overlay.classList.add('redirect');
+            
+            // Create countdown HTML
+            const countdownSeconds = Math.ceil(totalTime / 1000);
+            overlay.innerHTML = `
+                <div>Redirecting you to ChatGPT...</div>
+                <span class="countdown-text" id="countdownText">in ${countdownSeconds} seconds</span>
+                <div class="countdown-progress" style="animation-duration: ${totalTime}ms;"></div>
+            `;
+            
+            // Update countdown text every second
+            for (let i = countdownSeconds - 1; i > 0; i--) {
+                await sleep(1000);
+                const countdownText = document.getElementById('countdownText');
+                if (countdownText) {
+                    countdownText.textContent = `in ${i} second${i !== 1 ? 's' : ''}`;
+                }
+            }
+            
+            // Final second
+            await sleep(1000);
+            const countdownText = document.getElementById('countdownText');
+            if (countdownText) {
+                countdownText.textContent = 'now!';
+            }
+        }
+
         async function startAnimation(prompt, isPreview) {
             const urlBar = document.getElementById('urlBar');
             const browserContent = document.getElementById('browserContent');
@@ -1005,11 +1068,10 @@
             await updateOverlayMessage(stepOverlay, finalMessage, 400, 600);
             await sleep(FINAL_DELAY);
 
-            // Fade out before redirect
+            // Show redirect countdown unless in preview mode
             if (!isPreview) {
-                stepOverlay.classList.remove('show');
-                stepOverlay.classList.add('hide');
-                await sleep(500);
+                await updateOverlayMessage(stepOverlay, '', 300, 100); // Quick fade for transition
+                await showRedirectCountdown(stepOverlay, 3000); // 3 second countdown
                 window.location.href = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
             }
         }
