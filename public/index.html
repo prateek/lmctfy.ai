@@ -527,7 +527,7 @@
     <div class="generator-mode">
         <div class="container">
             <header>
-                <img src="logo.png" alt="LMCTFY.ai" class="logo">
+                <img src="assets/logo.png" alt="LMCTFY.ai" class="logo">
                 <p class="tagline">Let Me ChatGPT That For You</p>
             </header>
 
@@ -746,8 +746,8 @@
                 linkInput.value = 'Creating short URL...';
 
                 try {
-                    // Call API to create short URL
-                    const response = await fetch('/api/shorten', {
+                    // Call KV API to create short URL
+                    const response = await fetch('/api/kv', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

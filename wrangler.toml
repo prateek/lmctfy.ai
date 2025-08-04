@@ -1,30 +1,20 @@
-name = "lmctfy-ai"
-main = "worker.js"
-compatibility_date = "2024-01-01"
+# wrangler.toml
+[env.production]
+vars = { ENVIRONMENT = "production" }
 
-# KV Namespace binding for URL storage
 [[kv_namespaces]]
-binding = "URLS"
-id = "56cf72fa04b9404a9c6a978e7c90ad2b"
-preview_id = "0fd4b3adef6e4c108804cd50f1d2ea38"
+binding = "LMCTFY_KV"
+id = "15c67f509d4e46548fb840754d3128bc"
+preview_id = "2ff697068ff64deda85350624d557f18"
 
-# Routes for custom domain
-routes = [
-  { pattern = "lmctfy.ai/*", zone_name = "lmctfy.ai" }
-]
+[env.staging]
+vars = { ENVIRONMENT = "staging" }
 
-# Environment variables (if needed)
-[vars]
-ENVIRONMENT = "production"
+# [[kv_namespaces]]
+# binding = "KV_STORE"
+# preview_id = "2ff697068ff64deda85350624d557f18"
 
-# Development settings
-[env.development]
-name = "lmctfy-ai-dev"
-vars = { ENVIRONMENT = "development" }
-
-# Pages configuration
-pages_build_output_dir = "./dist"
-
-# Workers Sites configuration for static file serving (keep for worker)
-[site]
-bucket = "./dist"
+[build]
+command = ""
+cwd = "public"
+watch_paths = ["public", "functions"]
