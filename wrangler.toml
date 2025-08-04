@@ -2,13 +2,21 @@ name = "lmctfy-ai"
 compatibility_date = "2025-08-04"
 pages_build_output_dir = "public"
 
+[[kv_namespaces]]
+binding = "LMCTFY_KV"
+id = "15c67f509d4e46548fb840754d3128bc"
+preview_id = "2ff697068ff64deda85350624d557f18"
+
 [env.production]
 vars = { ENVIRONMENT = "production" }
+
+[[env.production.kv_namespaces]]
+binding = "LMCTFY_KV"
+id = "15c67f509d4e46548fb840754d3128bc"
 
 [env.preview]
 vars = { ENVIRONMENT = "preview" }
 
-[[kv_namespaces]]
+[[env.preview.kv_namespaces]]
 binding = "LMCTFY_KV"
-id = "15c67f509d4e46548fb840754d3128bc"
 preview_id = "2ff697068ff64deda85350624d557f18"
