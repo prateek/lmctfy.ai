@@ -520,6 +520,8 @@
             background: linear-gradient(135deg, #ffa726, #ff7043);
             position: relative;
             overflow: hidden;
+            top: 65% !important;
+            transform: translate(-50%, -50%) scale(1) !important;
         }
 
         .countdown-progress {
@@ -714,6 +716,10 @@
             .cursor-ripple.animate {
                 width: 30px;
                 height: 30px;
+            }
+
+            .step-overlay.redirect {
+                top: 60% !important;
             }
         }
     </style>
@@ -1069,15 +1075,17 @@
         async function showRedirectCountdown(overlay, totalTime = 3000) {
             // Clear previous classes and set redirect styling
             overlay.classList.remove('final');
-            overlay.classList.add('redirect');
-
-            // Create countdown HTML
+            
+            // Create countdown HTML first
             const countdownSeconds = Math.ceil(totalTime / 1000);
             overlay.innerHTML = `
                 <div>Redirecting you to ChatGPT...</div>
                 <span class="countdown-text" id="countdownText">in ${countdownSeconds} seconds</span>
                 <div class="countdown-progress" style="animation-duration: ${totalTime}ms;"></div>
             `;
+            
+            // Add redirect class after content is set for smooth transition
+            overlay.classList.add('redirect');
 
             // Update countdown text every second
             for (let i = countdownSeconds - 1; i > 0; i--) {
