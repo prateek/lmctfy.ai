@@ -1,0 +1,1 @@
+- remember to use `wrangler pages dev public` and playwright tools to test changes
