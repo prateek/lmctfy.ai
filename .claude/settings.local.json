@@ -32,7 +32,8 @@
       "Bash(wrangler pages domains:*)",
       "Bash(wrangler:*)",
       "mcp__cf-docs__search_cloudflare_documentation",
-      "Bash(mv:*)"
+      "Bash(mv:*)",
+      "Bash(dig:*)"
     ],
     "deny": []
   }

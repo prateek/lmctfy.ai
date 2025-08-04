@@ -42,7 +42,7 @@ LMCTFY.ai is a single-page web application that helps users create shareable lin
 ### Local Development
 
 ```bash
-# Install dependencies
+# Install dependencies (optional - no build dependencies required)
 npm install
 
 # Start local development server
@@ -51,9 +51,16 @@ npm run dev
 # Deploy to Cloudflare Pages
 npm run deploy
 
-# View logs
+# View deployment logs
 npm run logs
 ```
+
+### Development Workflow
+
+1. **Local Testing**: Use `npm run dev` to test locally on `http://localhost:8788`
+2. **Manual Deployment**: Use `wrangler pages deploy --branch main` for production
+3. **Preview Deployments**: Use other branch names for preview environments
+4. **KV Testing**: KV storage works in both local and deployed environments
 
 ### Project Structure
 
@@ -76,10 +83,35 @@ npm run logs
 The application uses Cloudflare KV for URL shortening. The KV namespace binding is configured in `wrangler.toml`:
 
 ```toml
+name = "lmctfy-ai"
+compatibility_date = "2025-08-04"
+pages_build_output_dir = "public"
+
 [[kv_namespaces]]
 binding = "LMCTFY_KV"
-id = "your-kv-namespace-id"
+id = "15c67f509d4e46548fb840754d3128bc"
+preview_id = "2ff697068ff64deda85350624d557f18"
+
+[env.production]
+vars = { ENVIRONMENT = "production" }
+
+[[env.production.kv_namespaces]]
+binding = "LMCTFY_KV"
+id = "15c67f509d4e46548fb840754d3128bc"
+
+[env.preview]
+vars = { ENVIRONMENT = "preview" }
+
+[[env.preview.kv_namespaces]]
+binding = "LMCTFY_KV"
+preview_id = "2ff697068ff64deda85350624d557f18"
 ```
+
+### Environment Setup
+
+1. **KV Namespace**: Create a KV namespace in your Cloudflare dashboard
+2. **Update IDs**: Replace the KV namespace IDs in `wrangler.toml` with your own
+3. **Authentication**: Run `wrangler login` to authenticate with Cloudflare
 
 ## API Endpoints
 
@@ -135,14 +167,47 @@ https://lmctfy.ai/abc123
 
 ## Deployment
 
-The application is automatically deployed to Cloudflare Pages via GitHub Actions when changes are pushed to the main branch.
+The application is deployed to Cloudflare Pages and accessible at:
+- **Production**: [lmctfy.ai](https://lmctfy.ai)
+- **Pages Subdomain**: [lmctfy-ai.pages.dev](https://lmctfy-ai.pages.dev)
 
-### Manual Deployment
+### Deployment Methods
+
+#### Option 1: Manual Deployment (Current Setup)
 
 ```bash
-# Deploy to Cloudflare Pages
-wrangler pages deploy public --project-name lmctfy-ai
+# Deploy to production (main branch)
+wrangler pages deploy --branch main
+
+# Deploy to preview (other branches)
+wrangler pages deploy --branch feature-branch
 ```
+
+#### Option 2: Git Integration (Recommended for CI/CD)
+
+Connect your GitHub repository to Cloudflare Pages for automatic deployments:
+
+1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com) > Pages
+2. Select your project > Settings > Build & deployments
+3. Connect your GitHub repository
+4. Set build configuration:
+   - **Build command**: `` (empty)
+   - **Build output directory**: `public`
+   - **Root directory**: `/`
+
+### Custom Domain Setup
+
+1. **Add domain to Cloudflare**: Ensure `lmctfy.ai` is managed by Cloudflare DNS
+2. **Configure nameservers**: Point your domain's nameservers to Cloudflare
+3. **Add custom domain**: In Pages project settings, add `lmctfy.ai` as custom domain
+4. **SSL certificate**: Cloudflare automatically provisions SSL certificates
+
+### Important Notes
+
+- Use `--branch main` for production deployments to ensure custom domain works
+- Preview deployments (other branches) only work on `*.pages.dev` subdomains  
+- KV namespaces must be configured for both production and preview environments
+- Changes to `wrangler.toml` require redeployment to take effect
 
 ## Contributing
 
