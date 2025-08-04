@@ -248,6 +248,45 @@
             border-radius: 8px;
             display: block;
             margin: 0 auto;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .preview-controls {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .fullscreen-btn {
+            background-color: #f7f7f8;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 14px;
+            color: #202123;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .fullscreen-btn:hover {
+            background-color: #e5e5e5;
+            border-color: #d0d0d0;
+        }
+
+        .fullscreen-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Hide fullscreen button on larger screens */
+        @media (min-width: 769px) {
+            .fullscreen-btn {
+                display: none;
+            }
         }
 
         footer {
@@ -673,13 +712,34 @@
             }
 
             .preview-frame {
-                height: 200px;
+                height: 60vh;
+                min-height: 400px;
+                max-height: 500px;
             }
 
             .browser-window {
-                width: 95%;
-                height: 90%;
-                margin: 20px auto;
+                width: 98%;
+                height: 95%;
+                margin: 10px auto;
+            }
+
+            .browser-header {
+                padding: 8px;
+            }
+
+            .url-bar {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+
+            .chatgpt-title {
+                font-size: 16px;
+            }
+
+            .chatgpt-input {
+                font-size: 14px;
+                padding: 10px 45px 10px 12px;
+                min-height: 44px;
             }
 
             .step-overlay {
@@ -776,6 +836,14 @@
 
                 <div class="preview-container" id="previewContainer">
                     <iframe class="preview-frame" id="previewFrame"></iframe>
+                    <div class="preview-controls">
+                        <button class="fullscreen-btn" onclick="openFullscreenPreview()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                            </svg>
+                            Open Fullscreen
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1053,6 +1121,21 @@
 
             previewFrame.src = previewUrl;
             previewContainer.style.display = 'block';
+        }
+
+        function openFullscreenPreview() {
+            const prompt = document.getElementById('promptInput').value.trim();
+            const encoded = encodeURIComponent(prompt);
+            
+            let previewUrl;
+            if (window.location.protocol === 'file:') {
+                previewUrl = window.location.href.split('?')[0] + '?q=' + encoded + '&preview=1';
+            } else {
+                previewUrl = getBaseUrl() + '/?q=' + encoded + '&preview=1';
+            }
+            
+            // Open in new tab/window
+            window.open(previewUrl, '_blank');
         }
 
         async function typeText(element, text, speed) {
