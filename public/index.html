@@ -466,49 +466,66 @@
 
         .step-overlay {
             position: absolute;
-            top: 30px;
-            right: 30px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
             background: linear-gradient(135deg, #ff6b6b, #ee5a52);
             color: white;
-            padding: 20px 30px;
-            border-radius: 15px;
-            font-size: 18px;
+            padding: 25px 40px;
+            border-radius: 20px;
+            font-size: 20px;
             font-weight: 600;
             opacity: 0;
-            transform: translateY(-10px) scale(0.9);
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.4);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px);
             z-index: 1000;
-            min-width: 250px;
+            min-width: 320px;
+            max-width: 500px;
             text-align: center;
-            animation: pulse 2s infinite;
+            animation: centerPulse 3s infinite;
         }
 
         .step-overlay.show {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translate(-50%, -50%) scale(1);
         }
 
-        @keyframes pulse {
+        .step-overlay.hide {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+        }
+
+        @keyframes centerPulse {
             0%, 100% {
-                box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+                box-shadow: 0 15px 40px rgba(255, 107, 107, 0.4);
+                border-color: rgba(255, 255, 255, 0.3);
             }
             50% {
-                box-shadow: 0 8px 35px rgba(255, 107, 107, 0.5), 0 0 20px rgba(255, 107, 107, 0.3);
+                box-shadow: 0 20px 60px rgba(255, 107, 107, 0.6), 0 0 30px rgba(255, 107, 107, 0.4);
+                border-color: rgba(255, 255, 255, 0.5);
             }
         }
 
         .step-overlay.final {
             background: linear-gradient(135deg, #4ecdc4, #44a08d);
-            animation: finalPulse 0.5s ease-out;
+            animation: finalCenterPulse 0.8s ease-out;
         }
 
-        @keyframes finalPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        @keyframes finalCenterPulse {
+            0% { 
+                transform: translate(-50%, -50%) scale(1); 
+                box-shadow: 0 15px 40px rgba(78, 205, 196, 0.4);
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.1); 
+                box-shadow: 0 25px 60px rgba(78, 205, 196, 0.6), 0 0 40px rgba(78, 205, 196, 0.5);
+            }
+            100% { 
+                transform: translate(-50%, -50%) scale(1); 
+                box-shadow: 0 15px 40px rgba(78, 205, 196, 0.4);
+            }
         }
 
         @media (max-width: 768px) {
@@ -547,12 +564,21 @@
             }
 
             .step-overlay {
-                top: 15px;
-                right: 15px;
-                left: 15px;
-                padding: 15px 20px;
-                font-size: 16px;
-                min-width: auto;
+                top: 40%;
+                left: 50%;
+                transform: translate(-50%, -50%) scale(0.8);
+                padding: 20px 25px;
+                font-size: 18px;
+                min-width: 280px;
+                max-width: 90vw;
+            }
+
+            .step-overlay.show {
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            .step-overlay.hide {
+                transform: translate(-50%, -50%) scale(0.8);
             }
         }
     </style>
@@ -888,24 +914,40 @@
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
+        async function updateOverlayMessage(overlay, message, fadeOutTime = 300, fadeInTime = 400) {
+            // Fade out current message
+            overlay.classList.remove('show');
+            overlay.classList.add('hide');
+            await sleep(fadeOutTime);
+            
+            // Update message
+            overlay.textContent = message;
+            
+            // Fade in new message
+            overlay.classList.remove('hide');
+            overlay.classList.add('show');
+            await sleep(fadeInTime);
+        }
+
         async function startAnimation(prompt, isPreview) {
             const urlBar = document.getElementById('urlBar');
             const browserContent = document.getElementById('browserContent');
             const stepOverlay = document.getElementById('stepOverlay');
 
-            // Step 0: Empty browser with snarky introduction
+            // Initial intro with smooth fade in
             stepOverlay.textContent = 'Watch closely... this is how you use the internet 🙄';
             stepOverlay.classList.add('show');
-            await sleep(STEP_DELAY);
+            await sleep(STEP_DELAY + 500); // Extra time for intro
 
-            // Step 1: Type URL with realistic speed
-            stepOverlay.textContent = 'Step 1: Navigate to ChatGPT (revolutionary, I know)';
-            await sleep(400);
+            // Step 1: Navigate to ChatGPT with smooth transition
+            await updateOverlayMessage(stepOverlay, 'Step 1: Navigate to ChatGPT (revolutionary, I know)');
+            await sleep(200);
             await typeText(urlBar, 'chat.openai.com', URL_TYPING_SPEED);
             await sleep(STEP_DELAY);
 
-            // Step 2: Show ChatGPT interface
-            stepOverlay.textContent = 'Step 2: Actually type your question (shocking concept!)';
+            // Step 2: Show ChatGPT interface with smooth transition
+            await updateOverlayMessage(stepOverlay, 'Step 2: Actually type your question (shocking concept!)');
+            
             browserContent.innerHTML = `
                 <div class="chatgpt-mock">
                     <div class="chatgpt-header">
@@ -929,15 +971,16 @@
                 </div>
             `;
 
-            await sleep(600);
+            await sleep(400);
             const chatInput = document.getElementById('chatInput');
             // Improved typing speed calculation for more natural feel
             const textSpeed = Math.max(30, Math.min(120, 2000 / prompt.length));
             await typeText(chatInput, prompt, textSpeed);
-
-            // Step 3: Press Enter with dramatic pause
-            stepOverlay.textContent = 'Step 3: Click the send button (mind = blown 🤯)';
             await sleep(STEP_DELAY);
+
+            // Step 3: Send button with smooth transition
+            await updateOverlayMessage(stepOverlay, 'Step 3: Click the send button (mind = blown 🤯)');
+            await sleep(400);
 
             // Simulate button press with better animation
             const sendBtn = document.querySelector('.chatgpt-send-btn');
@@ -947,7 +990,9 @@
             sendBtn.style.transform = '';
             sendBtn.style.background = '#10a37f';
 
-            // Final snarky message with special styling
+            await sleep(600);
+
+            // Final snarky message with special styling and smooth transition
             stepOverlay.classList.add('final');
             const snarkMessages = [
                 'Was that so hard? 🤷‍♂️',
@@ -956,11 +1001,15 @@
                 'There you go... rocket science, right? 🚀',
                 'Boom! Internet mastery achieved! 💪'
             ];
-            stepOverlay.textContent = snarkMessages[Math.floor(Math.random() * snarkMessages.length)];
+            const finalMessage = snarkMessages[Math.floor(Math.random() * snarkMessages.length)];
+            await updateOverlayMessage(stepOverlay, finalMessage, 400, 600);
             await sleep(FINAL_DELAY);
 
-            // Redirect unless preview mode
+            // Fade out before redirect
             if (!isPreview) {
+                stepOverlay.classList.remove('show');
+                stepOverlay.classList.add('hide');
+                await sleep(500);
                 window.location.href = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
             }
         }
