@@ -518,27 +518,30 @@
 
         .step-overlay.redirect {
             background: linear-gradient(135deg, #ffa726, #ff7043);
-            position: relative;
+            position: absolute !important;
             overflow: hidden;
             top: 65% !important;
-            transform: translate(-50%, -50%) scale(1) !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
             opacity: 1 !important;
-            transition: opacity 0.3s ease-out !important;
+            transition: none !important;
+            animation: none !important;
         }
 
         .step-overlay.redirect.show {
             opacity: 1 !important;
-            transform: translate(-50%, -50%) scale(1) !important;
+            transform: translate(-50%, -50%) !important;
         }
 
         .countdown-progress {
             position: absolute;
             bottom: 0;
             left: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.8));
+            height: 6px;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 0 0 20px 20px;
             animation: countdownProgress linear;
+            width: 0%;
         }
 
         @keyframes countdownProgress {
@@ -1080,15 +1083,10 @@
         }
 
         async function showRedirectCountdown(overlay, totalTime = 3000) {
-            // First fade out the current content
-            overlay.classList.remove('show');
-            overlay.classList.add('hide');
-            await sleep(300);
+            // Remove all existing classes
+            overlay.className = 'step-overlay';
             
-            // Clear all classes and reset
-            overlay.classList.remove('final', 'hide', 'show');
-            
-            // Create countdown HTML
+            // Set the countdown content
             const countdownSeconds = Math.ceil(totalTime / 1000);
             overlay.innerHTML = `
                 <div>Redirecting you to ChatGPT...</div>
@@ -1096,9 +1094,9 @@
                 <div class="countdown-progress" style="animation-duration: ${totalTime}ms;"></div>
             `;
             
-            // Add redirect class and show
+            // Force display and add redirect class
+            overlay.style.display = 'block';
             overlay.classList.add('redirect');
-            await sleep(50); // Small delay to ensure browser processes the class change
             overlay.classList.add('show');
 
             // Update countdown text every second
